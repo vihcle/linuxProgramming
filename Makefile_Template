@@ -1,0 +1,31 @@
+# Linux系统中头文件存放目录 /usr/include 或者/usr/local/include 
+# Linux系统中静态库文件存放目录 /usr/lib(64) 或者/usr/local/lib 
+# 使用yum、apt等系统包安装工具的库都放在/usr/lib(64)目录下
+
+# 库所在路径(如果修改了muduo的路径，则需要更改此变量的值)
+MUDUO_DIRECTORY=$(HOME)/build/release-install-c11
+
+# 头文件所在目录
+MUDUO_INCLUDE=$(MUDUO_DIRECTORY)/include 
+MUDUO_LIBRARY=$(MODUO_DIRECTORY)/lib
+
+SRC=../src
+
+# 编译器选项(-I选项指定头文件)
+CXXFLAGS=-g -O0 -Wall -Werror \
+	-Wconversion -Wno-unused-parameter \
+	-Wold-style-cast -Woverloaded-virtual \
+	-Wpoint-arith -Wshadow -Wwrite-strings \
+	-march=native -rdynamic \
+	-I$(MUDUO_INCLUDE)
+						
+# 连接器选项(muduo_net, muduo_base, pthread和rt库)
+LDFLAGS=-L$(MUDUO_LIBRARY)-lmuduo_net -lmuduo_base -lpthread -lrt
+all:echo
+clean:
+	rm-f echo core 
+								
+echo:$(SRC)/echo.cc
+g++ $(CXXFLAGS) -O $@ $^ $(LDFLAGS)
+										
+.PHONY: all clean
