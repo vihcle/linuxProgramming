@@ -1,0 +1,7 @@
+1: generate cscope.files文件，针对哪些文件进行扫描
+	find . -nam e*.cc -o -name *.h  >> cscope.files
+2: generate cscope database file
+	cscope -b 
+3: read the source code
+	cscope -d 
+
